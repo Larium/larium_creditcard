@@ -21,7 +21,7 @@ use InvalidArgumentException;
  *
  * @author  Andreas Kollaros <andreas@larium.net>
  */
-class ExpiryDate
+final class ExpiryDate
 {
     /**
      * Expiration year.

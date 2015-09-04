@@ -18,7 +18,7 @@ namespace Larium\CreditCard;
  *
  * @author  Andreas Kollaros <andreas@larium.net>
  */
-class CreditCard
+final class CreditCard
 {
     const VISA                  = 'visa';
     const MASTER                = 'master';
@@ -38,35 +38,35 @@ class CreditCard
      *
      * @var string
      */
-    protected $firstName;
+    private $firstName;
 
     /**
      * Card holder last name
      *
      * @var string
      */
-    protected $lastName;
+    private $lastName;
 
     /**
      * Expire date of card as value object
      *
      * @var ExpiryDate
      */
-    protected $expiryDate;
+    private $expiryDate;
 
     /**
      * The brand of card.
      *
      * @var string
      */
-    protected $brand;
+    private $brand;
 
     /**
      * The number of card.
      *
      * @var string
      */
-    protected $number;
+    private $number;
 
     /**
      * The verification value of card (cvv).
@@ -74,23 +74,23 @@ class CreditCard
      *
      * @var integer
      */
-    protected $cvv;
+    private $cvv;
 
     /**
      * Whether card is require verification value to be present.
      *
      * @var boolean
      */
-    protected $requireCvv = true;
+    private $requireCvv = true;
 
     /**
      * Token stored from a real credit card and can be used for purchases.
      *
      * @var string
      */
-    protected $token;
+    private $token;
 
-    protected static $cardCompanies = array(
+    private static $cardCompanies = array(
         'visa'              => '/^4\d{12}(\d{3})?$/',
         'master'            => '/^(5[1-5]\d{4}|677189)\d{10}$/',
         'discover'          => '/^(6011|65\d{2})\d{12}$/',
@@ -139,7 +139,7 @@ class CreditCard
         ($this->brand = $this->detectBrand()) or ($this->brand = $brand);
     }
 
-    protected function detectBrand()
+    private function detectBrand()
     {
         foreach (self::$cardCompanies as $name => $pattern) {
             if ($name == 'maestro') {
@@ -156,7 +156,7 @@ class CreditCard
         }
     }
 
-    protected function with($prop, $value)
+    private function with($prop, $value)
     {
         $card = clone $this;
 
