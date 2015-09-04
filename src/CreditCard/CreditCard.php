@@ -3,7 +3,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /*
- * This file is part of the Larium Payment package.
+ * This file is part of the Larium CreditCard package.
  *
  * (c) Andreas Kollaros <andreas@larium.net>
  *
