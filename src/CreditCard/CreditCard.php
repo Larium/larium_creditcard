@@ -324,7 +324,16 @@ class CreditCard
     public function withToken($token)
     {
         $card = $this->with('token', $token);
-        $card->number = null;
+
+        if (null !== $card->number) {
+            $lastDigits = strlen($card->number) <= 4
+                ? $card->number :
+                substr($card->number, -4);
+            $card->number = "XXXX-XXXX-XXXX-" . $lastDigits;
+        }
+
+        $card->cvv = null;
+
         return $card;
     }
 }

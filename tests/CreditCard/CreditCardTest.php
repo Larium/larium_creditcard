@@ -54,4 +54,23 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($card->getToken());
     }
+
+    public function testSettingtoken()
+    {
+        $data = [
+            'firstName' => 'John',
+            'lastName'  => 'Doe',
+            'month'     => 1,
+            'year'      => date('Y') + 1,
+            'brand'     => CreditCard::VISA,
+            'number'    => '4532875311640795',
+            'cvv'       => '123',
+            'foo'       => 1
+        ];
+        $card = new CreditCard($data);
+
+        $card = $card->withToken('0123456789');
+
+        $this->assertRegExp('/XXXX-XXXX-XXXX-\d{4}/', $card->getNumber());
+    }
 }

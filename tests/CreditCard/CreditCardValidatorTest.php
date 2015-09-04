@@ -9,11 +9,11 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider cardOptionsProvider
      */
-    public function testValidation($options, $expected, $errorProperty)
+    public function testValidation($options, $expected, $errorProperty, $context)
     {
         $card = new CreditCard($options);
 
-        $validator = new CreditCardValidator();
+        $validator = new CreditCardValidator($context);
 
         $errors = $validator->validate($card);
 
@@ -69,7 +69,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'foo'       => 1
                 ),
                 true,
-                null
+                null,
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 1
             array(
@@ -82,7 +83,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'number'    => '4735930212834206',
                 ),
                 false,
-                'cvv'
+                'cvv',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 2
             array(
@@ -96,7 +98,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '13',
                 ),
                 false,
-                'cvv'
+                'cvv',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 3
             array(
@@ -110,7 +113,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '1234',
                 ),
                 false,
-                'cvv'
+                'cvv',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 4
             array(
@@ -124,7 +128,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123',
                 ),
                 false,
-                'cvv'
+                'cvv',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 5
             array(
@@ -138,7 +143,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '1234',
                 ),
                 true,
-                null
+                null,
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 6
             array(
@@ -152,7 +158,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123'
                 ),
                 false,
-                'date'
+                'date',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 7
             array(
@@ -166,7 +173,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123'
                 ),
                 true,
-                null
+                null,
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 8
             array(
@@ -180,7 +188,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123'
                 ),
                 false,
-                'number'
+                'number',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 9
             array(
@@ -194,7 +203,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123'
                 ),
                 false,
-                'name'
+                'name',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 10
             array(
@@ -208,7 +218,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123'
                 ),
                 false,
-                'name'
+                'name',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 11
             array(
@@ -222,7 +233,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123'
                 ),
                 false,
-                'name'
+                'name',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 12
             array(
@@ -236,7 +248,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123'
                 ),
                 false,
-                'brand'
+                'brand',
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 13
             array(
@@ -250,7 +263,8 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'requireCvv'=> false
                 ),
                 true,
-                null
+                null,
+                CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 14
             array(
@@ -264,7 +278,26 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                     'cvv'       => '123'
                 ),
                 true,
-                null
+                null,
+                CreditCardValidator::CONTEXT_CREDITCARD
+            ),
+            # 15
+            array(
+                array(
+                    'token' => '0123456789',
+                ),
+                true,
+                null,
+                CreditCardValidator::CONTEXT_TOKEN
+            ),
+            # 16
+            array(
+                array(
+                    'token' => null,
+                ),
+                false,
+                'token',
+                CreditCardValidator::CONTEXT_TOKEN
             ),
         );
     }

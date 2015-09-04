@@ -59,7 +59,8 @@ class CreditCardValidator
             $this->validateBrand();
             $this->validateCardHolder();
         } elseif ($this->context == self::CONTEXT_TOKEN) {
-            $this->assertNotEmpty($this->creditCard->getToken());
+            $this->assertNotEmpty($this->creditCard->getToken())
+                or $this->errors['token'] = 'token value is empty';
         }
 
         return $this->errors;
