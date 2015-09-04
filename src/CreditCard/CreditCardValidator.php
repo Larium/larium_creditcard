@@ -30,6 +30,8 @@ class CreditCardValidator
 
     protected $errors = array();
 
+    protected $context;
+
     public function __construct($context = self::CONTEXT_CREDITCARD)
     {
         $this->setContext($context);
