@@ -50,7 +50,7 @@ class CreditCard
     /**
      * Expire date of card as value object
      *
-     * @var ExpireDate
+     * @var ExpiryDate
      */
     protected $expiryDate;
 
@@ -154,8 +154,6 @@ class CreditCard
         if (preg_match(self::$cardCompanies['maestro'], $this->number)) {
             return 'maestro';
         }
-
-        return false;
     }
 
     protected function with($prop, $value)
@@ -226,7 +224,7 @@ class CreditCard
     /**
      * Sets card holder last name.
      *
-     * @param  string $last_name
+     * @param  string $lastName
      * @return CreditCard
      */
     public function withLastName($lastName)
@@ -247,7 +245,7 @@ class CreditCard
     /**
      * Sets expiry month of card.
      *
-     * @param  integer $month the value to set.
+     * @param  integer $expiryDate
      * @return CreditCard
      */
     public function withExpiryDate($expiryDate)
@@ -268,7 +266,7 @@ class CreditCard
     /**
      * Sets the brand of card.
      *
-     * @param  string $brand.
+     * @param  string $brand
      * @return CreditCard
      */
     public function withBrand($brand)
@@ -289,7 +287,7 @@ class CreditCard
     /**
      * Sets card verification value.
      *
-     * @param  integer $verification_value.
+     * @param  integer $cvv
      * @return CreditCard
      */
     public function withCvv($cvv)
@@ -307,6 +305,11 @@ class CreditCard
         return $this->requireCvv;
     }
 
+    /**
+     * Gets referenece token of a credit card.
+     *
+     * @return string
+     */
     public function getToken()
     {
         return $this->token;
