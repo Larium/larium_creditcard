@@ -1,6 +1,6 @@
 {
-    "name": "larium/creditcard",
-    "description": "Creditcard",
+    "name": "larium/credit-card",
+    "description": "Credit card as value object.",
     "keywords": ["payments", "merchant", "credit card"],
     "type": "library",
     "license": "MIT",
