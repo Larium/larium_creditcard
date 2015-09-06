@@ -42,7 +42,6 @@ final class ExpiryDate
     /**
      * @param integer $month
      * @param integer $year
-     * @return ExpiryDate
      */
     public function __construct($month, $year)
     {
