@@ -245,10 +245,10 @@ final class CreditCard
     /**
      * Sets expiry month of card.
      *
-     * @param  integer $expiryDate
+     * @param  ExpiryDate $expiryDate
      * @return CreditCard
      */
-    public function withExpiryDate($expiryDate)
+    public function withExpiryDate(ExpiryDate $expiryDate)
     {
         return $this->with('expiryDate', $expiryDate);
     }
