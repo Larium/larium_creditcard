@@ -69,6 +69,7 @@ echo $card->getBrand(); # master
 <?php
 use Larium\CreditCard\CreditCard;
 use Larium\CreditCard\CreditCardValidator;
+use Larium\CreditCard\Token;
 
 require_once 'vendor/autoload.php';
 
@@ -86,7 +87,7 @@ $card = new CreditCard($data);
 
 # ... use credit card to obtain a token reference from a remote payment gateway.
 
-$token = '0123456789';
+$token = new Token('0123456789');
 
 $card = $card->withToken($token);
 
@@ -97,6 +98,25 @@ echo $card->getNumber(); # XXXX-XXXX-XXXX-0795
 echo $card->getToken(); # 0123456789
 
 ````
+
+In some cases we need to use a temporary token to fulfil a payment.
+Many payment gateways support a limited time token, which represents a card or
+a payment method.
+
+````php
+<?php
+use Larium\CreditCard\Token;
+
+require_once 'vendor/autoload.php';
+
+$token = new Token('0123456789', new DateTime('15 minutes'));
+$token->isExpired() # false
+
+$token = new Token('0123456789', new DateTime('15 minutes ago'));
+$token->isExpired() # true
+
+````
+
 
 ### Validating a credit card
 
@@ -116,9 +136,11 @@ $data = [
     'cvv'       => '123',
 ];
 
+$card = new CreditCard($data);
+
 $validator = new CreditCardValidator();
 $errors = $validator->validate($card);
-$valid = count($errors) === 0;
+$valid = count($errors) === 0; # true
 
 $card = $card->withNumber('1');
 $error = $validator->validate($card);
@@ -129,6 +151,37 @@ Array
 (
     [number] => not a valid number
     [brand] => not valid card type
+)
+*/
+````
+
+### Validating a token of a credit card
+
+````php
+<?php
+
+use Larium\CreditCard\CreditCard;
+use Larium\CreditCard\CreditCardValidator;
+use Larium\CreditCard\Token;
+
+require_once 'vendor/autoload.php';
+
+$card = new CreditCard();
+$token = new Token('0123456789');
+$card = $card->withToken($token);
+$validator = new CreditCardValidator(CreditCardValidator::CONTEXT_TOKEN);
+$errors = $validator->validate($card);
+$valid = count($errors) === 0; # true
+
+$token = new Token('0123456789', new DateTime('15 minutes ago'));
+$card = $card->withToken($token);
+$validator->setContext(CreditCardValidator::CONTEXT_TOKEN);
+$validator->validate($card);
+$validator->getErrors();
+/*
+Array
+(
+    [token] => token has been expired
 )
 */
 ````
