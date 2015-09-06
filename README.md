@@ -1,3 +1,6 @@
+[![Coverage Status](https://coveralls.io/repos/Larium/larium_creditcard/badge.svg?branch=master&service=github)](https://coveralls.io/github/Larium/larium_creditcard?branch=master) [![Build Status](https://travis-ci.org/Larium/larium_creditcard.svg?branch=master)](https://travis-ci.org/Larium/larium_creditcard) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Larium/larium_creditcard/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Larium/larium_creditcard/?branch=master)
+
+
 # Credit card as [Value Object](https://en.wikipedia.org/wiki/Value_object)
 
 ## Installation
