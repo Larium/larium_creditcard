@@ -86,7 +86,7 @@ final class CreditCard
     /**
      * Token stored from a real credit card and can be used for purchases.
      *
-     * @var string
+     * @var Token
      */
     private $token;
 
