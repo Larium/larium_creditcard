@@ -70,8 +70,7 @@ class CreditCardValidator
             $this->validateBrand();
             $this->validateCardHolder();
         } elseif ($this->context == self::CONTEXT_TOKEN) {
-            $this->assertNotEmpty($this->creditCard->getToken())
-                or $this->errors['token'] = 'token value is empty';
+            $this->validateToken();
         }
 
         return $this->errors;
@@ -103,7 +102,7 @@ class CreditCardValidator
 
     protected function validateVerificationValue()
     {
-        if (false == $this->creditCard->isRequireCvv()) {
+        if (false === $this->creditCard->isRequireCvv()) {
             return;
         }
 
@@ -125,6 +124,18 @@ class CreditCardValidator
         ($this->assertNotEmpty($this->creditCard->getFirstName())
             && $this->assertNotEmpty($this->creditCard->getLastName()))
             or $this->errors['name'] = 'not valid first name or last name';
+    }
+
+    protected function validateToken()
+    {
+        if (!$this->assertNotEmpty($this->creditCard->getToken())) {
+            $this->errors['token'] = 'token value is empty';
+
+            return;
+        }
+
+        !$this->creditCard->getToken()->isExpired()
+            or $this->errors['token'] = 'token has been expired';
     }
 
     protected function assertLength($value, $min = 0, $max = 1)

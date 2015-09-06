@@ -126,8 +126,9 @@ final class CreditCard
         $month = $options['month'];
         $year  = $options['year'];
         $brand = $options['brand'];
+        $token = $options['token'];
 
-        unset($options['month'], $options['year'], $options['brand']);
+        unset($options['month'], $options['year'], $options['brand'], $options['token']);
 
         $expiryDate = new ExpiryDate($month, $year);
         $this->expiryDate = $expiryDate;
@@ -137,6 +138,10 @@ final class CreditCard
         }
 
         ($this->brand = $this->detectBrand()) or ($this->brand = $brand);
+
+        $token and $token instanceof Token
+            ? $this->token = $token
+            : $this->token = new Token($token);
     }
 
     private function detectBrand()
@@ -308,7 +313,7 @@ final class CreditCard
     /**
      * Gets referenece token of a credit card.
      *
-     * @return string
+     * @return Token
      */
     public function getToken()
     {
@@ -318,10 +323,10 @@ final class CreditCard
     /**
      * Sets token value.
      *
-     * @param  string $token
+     * @param  Token $token
      * @return CreditCard
      */
-    public function withToken($token)
+    public function withToken(Token $token)
     {
         $card = $this->with('token', $token);
 
@@ -335,5 +340,15 @@ final class CreditCard
         $card->cvv = null;
 
         return $card;
+    }
+
+    /**
+     * Checks whether credit card has stored a Token reference or not.
+     *
+     * @return boolean
+     */
+    public function hasToken()
+    {
+        return null !== $this->token;
     }
 }

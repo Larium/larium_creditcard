@@ -59,12 +59,22 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
     {
         $card = new CreditCard();
 
-        $card = $card->withToken('0123456789');
+        $card = $card->withToken(new Token('0123456789'));
 
         $this->assertNotNull($card->getToken());
+        $this->assertTrue($card->hasToken());
     }
 
-    public function testSettingtoken()
+    public function testCreditCardTokenInConsrtuctor()
+    {
+        $card = new CreditCard(['token' => '0123456789']);
+
+        $this->assertNotNull($card->getToken());
+        $this->assertInstanceOf('Larium\CreditCard\Token', $card->getToken());
+        $this->assertTrue($card->hasToken());
+    }
+
+    public function testSettingToken()
     {
         $data = [
             'firstName' => 'John',
@@ -78,7 +88,7 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
         ];
         $card = new CreditCard($data);
 
-        $card = $card->withToken('0123456789');
+        $card = $card->withToken(new Token('0123456789'));
 
         $this->assertRegExp('/XXXX-XXXX-XXXX-\d{4}/', $card->getNumber());
     }
