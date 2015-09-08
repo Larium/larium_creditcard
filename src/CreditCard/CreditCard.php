@@ -196,7 +196,7 @@ final class CreditCard
     }
 
     /**
-     * Gets card holder firstname.
+     * Gets card holder first name.
      *
      * @return string
      */
@@ -235,6 +235,11 @@ final class CreditCard
     public function withLastName($lastName)
     {
         return $this->with('lastName', $lastName);
+    }
+
+    public function getHoldersName()
+    {
+        return sprintf("%s %s", $this->firstName, $this->lastName);
     }
 
     /**
