@@ -106,7 +106,7 @@ class CreditCardValidator
             return;
         }
 
-        $length = $this->creditCard->getBrand() == CreditCard::AMERICAN_EXPRESS
+        $length = $this->creditCard->getBrand() == CreditCard::AMEX
             ? 4 : 3;
 
         strlen($this->creditCard->getCvv()) == $length

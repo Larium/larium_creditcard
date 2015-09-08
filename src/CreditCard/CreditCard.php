@@ -23,7 +23,7 @@ final class CreditCard
     const VISA                  = 'visa';
     const MASTER                = 'master';
     const DISCOVER              = 'discover';
-    const AMERICAN_EXPRESS      = 'american_express';
+    const AMEX                  = 'american_express';
     const DINERS_CLUB           = 'diners_club';
     const JCB                   = 'jcb';
     const SWITCH_BRAND          = 'switch';
