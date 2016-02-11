@@ -121,9 +121,8 @@ class CreditCardValidator
 
     protected function validateCardHolder()
     {
-        ($this->assertNotEmpty($this->creditCard->getFirstName())
-            && $this->assertNotEmpty($this->creditCard->getLastName()))
-            or $this->errors['name'] = 'not valid first name or last name';
+        $this->assertNotEmpty($this->creditCard->getHolderName())
+            or $this->errors['name'] = 'not a valid holder name';
     }
 
     protected function validateToken()

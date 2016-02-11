@@ -34,18 +34,12 @@ final class CreditCard
     const LASER              = 'laser';
 
     /**
-     * Card holder first name
+     * Card holder name.
+     * Should be in upper case.
      *
      * @var string
      */
-    private $firstName;
-
-    /**
-     * Card holder last name
-     *
-     * @var string
-     */
-    private $lastName;
+    private $holderName;
 
     /**
      * Expire date of card as value object
@@ -108,8 +102,7 @@ final class CreditCard
     public function __construct(array $options = array())
     {
         $default = array(
-            'firstName'  => null,
-            'lastName'   => null,
+            'holderName' => null,
             'month'      => 1,
             'year'       => 1970,
             'brand'      => null,
@@ -206,9 +199,9 @@ final class CreditCard
      *
      * @return string
      */
-    public function getFirstName()
+    public function getHolderName()
     {
-        return $this->firstName;
+        return $this->holderName;
     }
 
     /**
@@ -217,35 +210,10 @@ final class CreditCard
      * @param  string $firstName
      * @return CreditCard
      */
-    public function withFirstName($firstName)
+    public function withHolderName($holderName)
     {
-        return $this->with('firstName', $firstName);
-    }
-
-    /**
-     * Gets card holder last name.
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Sets card holder last name.
-     *
-     * @param  string $lastName
-     * @return CreditCard
-     */
-    public function withLastName($lastName)
-    {
-        return $this->with('lastName', $lastName);
-    }
-
-    public function getHoldersName()
-    {
-        return sprintf("%s %s", $this->firstName, $this->lastName);
+        $holderName = strtoupper($holderName);
+        return $this->with('holderName', $holderName);
     }
 
     /**

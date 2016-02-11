@@ -68,8 +68,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 0
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::VISA,
@@ -84,8 +83,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 1
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::VISA,
@@ -98,8 +96,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 2
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::VISA,
@@ -113,8 +110,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 3
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::VISA,
@@ -128,8 +124,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 4
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::AMEX,
@@ -143,8 +138,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 5
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::AMEX,
@@ -158,8 +152,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 6
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') - 1,
                     'brand'     => CreditCard::VISA,
@@ -173,8 +166,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 7
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::MASTER,
@@ -188,23 +180,20 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 8
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => null,
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::VISA,
-                    'number'    => '411111111111111',
+                    'number'    => '4111111111111111',
                     'cvv'       => '123'
                 ),
                 false,
-                'number',
+                'name',
                 CreditCardValidator::CONTEXT_CREDITCARD
             ),
             # 9
             array(
                 array(
-                    'firstName' => '',
-                    'lastName'  => null,
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::VISA,
@@ -218,38 +207,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
             # 10
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => null,
-                    'month'     => 1,
-                    'year'      => date('Y') + 1,
-                    'brand'     => CreditCard::VISA,
-                    'number'    => '4111111111111111',
-                    'cvv'       => '123'
-                ),
-                false,
-                'name',
-                CreditCardValidator::CONTEXT_CREDITCARD
-            ),
-            # 11
-            array(
-                array(
-                    'firstName' => '',
-                    'lastName'  => 'Doe',
-                    'month'     => 1,
-                    'year'      => date('Y') + 1,
-                    'brand'     => CreditCard::VISA,
-                    'number'    => '4111111111111111',
-                    'cvv'       => '123'
-                ),
-                false,
-                'name',
-                CreditCardValidator::CONTEXT_CREDITCARD
-            ),
-            # 12
-            array(
-                array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => null,
@@ -260,11 +218,10 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                 'brand',
                 CreditCardValidator::CONTEXT_CREDITCARD
             ),
-            # 13
+            # 11
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => null,
@@ -275,11 +232,10 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                 null,
                 CreditCardValidator::CONTEXT_CREDITCARD
             ),
-            # 14
+            # 12
             array(
                 array(
-                    'firstName' => 'John',
-                    'lastName'  => 'Doe',
+                    'holderName' => 'John Doe',
                     'month'     => 1,
                     'year'      => date('Y') + 1,
                     'brand'     => CreditCard::MAESTRO,
@@ -290,7 +246,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                 null,
                 CreditCardValidator::CONTEXT_CREDITCARD
             ),
-            # 15
+            # 13
             array(
                 array(
                     'token' => '0123456789',
@@ -299,7 +255,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                 null,
                 CreditCardValidator::CONTEXT_TOKEN
             ),
-            # 16
+            # 14
             array(
                 array(
                     'token' => null,

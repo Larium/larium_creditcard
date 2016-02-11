@@ -45,8 +45,7 @@ use Larium\CreditCard\CreditCardValidator;
 require_once 'vendor/autoload.php';
 
 $data = [
-    'firstName' => 'John',
-    'lastName'  => 'Doe',
+    'holderName'=> 'John Doe',
     'month'     => 1,
     'year'      => date('Y') + 1,
     'brand'     => CreditCard::VISA,
@@ -57,6 +56,8 @@ $data = [
 $card = new CreditCard($data);
 
 echo $card->getBrand(); # visa
+//Auto uppercase holder name.
+echo $card->getHolderName(); # JOHN DOE
 
 $card = $card->withNumber('5284911033259148');
 echo $card->getBrand(); # master
@@ -91,7 +92,7 @@ $token = new Token('0123456789');
 
 $card = $card->withToken($token);
 
-# Now, credit card will use token for future payments 
+# Now, credit card will use token for future payments
 # and will mask any sensitive data as number and cvv.
 echo $card->getCvv(); # null
 echo $card->getNumber(); # XXXX-XXXX-XXXX-0795
@@ -127,8 +128,7 @@ use Larium\CreditCard\CreditCardValidator;
 require_once 'vendor/autoload.php';
 
 $data = [
-    'firstName' => 'John',
-    'lastName'  => 'Doe',
+    'holderName'=> 'John',
     'month'     => 1,
     'year'      => date('Y') + 1,
     'brand'     => CreditCard::VISA,

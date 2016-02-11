@@ -18,8 +18,7 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
     public function testCreditCardInstance()
     {
         $data = [
-            'firstName' => 'John',
-            'lastName'  => 'Doe',
+            'holderName' => 'John Doe',
             'month'     => 1,
             'year'      => date('Y') + 1,
             'brand'     => CreditCard::VISA,
@@ -34,10 +33,7 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($otherCard, $card);
         $this->assertEquals('4532875311640795', $card->getNumber());
         $this->assertEquals('4735930212834206', $otherCard->getNumber());
-        $this->assertEquals(
-            $data['firstName'] . ' ' . $data['lastName'],
-            $card->getHoldersName()
-        );
+        $this->assertEquals($data['holderName'], $card->getHolderName());
     }
 
     public function testCreditCardMethods()
@@ -45,15 +41,13 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
         $card = new CreditCard();
 
         $card = $card->withNumber('5038525566641172')
-            ->withFirstName('Mark')
-            ->withLastName('Doe')
+            ->withHolderName('Mark Doe')
             ->withExpiryDate(new ExpiryDate(1, date('Y')+1))
             ->withBrand(CreditCard::MAESTRO)
             ->withCvv('123');
 
         $this->assertNotNull($card->getNumber());
-        $this->assertNotNull($card->getFirstName());
-        $this->assertNotNull($card->getLastName());
+        $this->assertNotNull($card->getHolderName());
         $this->assertNotNull($card->getExpiryDate());
         $this->assertNotNull($card->getBrand());
         $this->assertNotNull($card->getCvv());
