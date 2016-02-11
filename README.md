@@ -75,8 +75,7 @@ use Larium\CreditCard\Token;
 require_once 'vendor/autoload.php';
 
 $data = [
-    'firstName' => 'John',
-    'lastName'  => 'Doe',
+    'holderName' => 'John Doe',
     'month'     => 1,
     'year'      => date('Y') + 1,
     'brand'     => CreditCard::VISA,
@@ -128,7 +127,7 @@ use Larium\CreditCard\CreditCardValidator;
 require_once 'vendor/autoload.php';
 
 $data = [
-    'holderName'=> 'John',
+    'holderName'=> 'John Doe',
     'month'     => 1,
     'year'      => date('Y') + 1,
     'brand'     => CreditCard::VISA,
