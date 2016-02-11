@@ -17,7 +17,7 @@ $ composer require "larium/credit-card":"@stable"
 Include require line in your ```composer.json``` file
 ```json
 {
-	require: {
+	"require": {
     	"larium/credit-card": "@stable"
     }
 }
