@@ -7,11 +7,11 @@
     "authors": [
         {
             "name": "Andreas Kollaros",
-            "email": "andreass@larium.net"
+            "email": "andreas@larium.net"
         }
     ],
     "require": {
-        "php": ">=5.4"
+        "php": ">=5.3.3"
     },
     "minimum-stability": "stable",
     "autoload": {

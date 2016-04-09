@@ -45,8 +45,11 @@ class CreditCardValidator
      */
     public function setContext($context)
     {
-        if (!in_array($context, [self::CONTEXT_CREDITCARD, self::CONTEXT_TOKEN])) {
-            throw new RuntimeException(sprintf("Invalid validation context '%s'", $context));
+        $contexts = array(self::CONTEXT_CREDITCARD, self::CONTEXT_TOKEN);
+        if (!in_array($context, $contexts)) {
+            throw new RuntimeException(
+                sprintf("Invalid validation context '%s'", $context)
+            );
         }
 
         $this->context = $context;

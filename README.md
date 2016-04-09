@@ -6,7 +6,7 @@
 ## Installation
 You can install this library using [Composer](http://getcomposer.org)
 
-Information about how to install composer you can find [here](https://getcomposer.org/doc/00-intro.md) 
+Information about how to install composer you can find [here](https://getcomposer.org/doc/00-intro.md)
 
 ### Command line
 In root directory of your project run through a console:
@@ -44,14 +44,14 @@ use Larium\CreditCard\CreditCardValidator;
 
 require_once 'vendor/autoload.php';
 
-$data = [
+$data = array(
     'holderName'=> 'John Doe',
     'month'     => 1,
     'year'      => date('Y') + 1,
     'brand'     => CreditCard::VISA,
     'number'    => '4532875311640795',
     'cvv'       => '123',
-];
+);
 
 $card = new CreditCard($data);
 
@@ -74,14 +74,14 @@ use Larium\CreditCard\Token;
 
 require_once 'vendor/autoload.php';
 
-$data = [
+$data = array(
     'holderName' => 'John Doe',
     'month'     => 1,
     'year'      => date('Y') + 1,
     'brand'     => CreditCard::VISA,
     'number'    => '4532875311640795',
     'cvv'       => '123',
-];
+);
 
 $card = new CreditCard($data);
 
@@ -126,14 +126,14 @@ use Larium\CreditCard\CreditCardValidator;
 
 require_once 'vendor/autoload.php';
 
-$data = [
+$data = array(
     'holderName'=> 'John Doe',
     'month'     => 1,
     'year'      => date('Y') + 1,
     'brand'     => CreditCard::VISA,
     'number'    => '4532875311640795',
     'cvv'       => '123',
-];
+);
 
 $card = new CreditCard($data);
 

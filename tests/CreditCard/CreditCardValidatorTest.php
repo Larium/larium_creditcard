@@ -43,7 +43,7 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
 
         $validator->setContext(CreditCardValidator::CONTEXT_TOKEN);
 
-        $card = new CreditCard(['token' => '0123456789']);
+        $card = new CreditCard(array('token' => '0123456789'));
 
         $validator->validate($card);
 

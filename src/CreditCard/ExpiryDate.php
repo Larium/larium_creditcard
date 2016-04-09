@@ -72,7 +72,8 @@ final class ExpiryDate
      */
     public function getExpiration()
     {
-        return (new DateTime())
+        $dateTime = new DateTime();
+        return $dateTime
             ->setDate($this->year, $this->month, $this->getMonthDays())
             ->setTime(23, 59, 59);
     }
@@ -119,6 +120,7 @@ final class ExpiryDate
 
     private function getMonthDays()
     {
-        return (new DateTime("{$this->year}-{$this->month}-01"))->format('t');
+        $dateTime = new DateTime("{$this->year}-{$this->month}-01");
+        return $dateTime->format('t');
     }
 }
