@@ -6,7 +6,7 @@ php:
   - 5.6
   - hhvm
 install:
-  - composer require satooshi/php-coveralls:~0.6@stable
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "5.3.3" ]; then composer require satooshi/php-coveralls:~0.6@stable; fi;'
 before_script: composer dump-autoload
 script:
     - phpunit --configuration code-coverage.xml tests/
