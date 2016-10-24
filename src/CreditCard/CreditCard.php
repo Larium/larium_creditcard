@@ -123,6 +123,10 @@ final class CreditCard
 
     private function token($token)
     {
+        if (null === $token) {
+            return;
+        }
+
         if ($token instanceof Token) {
             $this->token = $token;
 
@@ -136,7 +140,7 @@ final class CreditCard
      * @param string $brand
      * @return void
      */
-    private function detectBrand($brand)
+    private function detectBrand($brand = null)
     {
         $detector = new CreditCardDetector();
 
