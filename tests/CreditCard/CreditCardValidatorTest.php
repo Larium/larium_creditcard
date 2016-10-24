@@ -264,6 +264,20 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                 'token',
                 CreditCardValidator::CONTEXT_TOKEN
             ),
+            # 15
+            array(
+                array(
+                    'holderName' => 'John Doe',
+                    'month'     => 1,
+                    'year'      => date('Y') + 1,
+                    'brand'     => CreditCard::VISA,
+                    'number'    => '41111111111111',
+                    'cvv'       => '123'
+                ),
+                false,
+                'number',
+                CreditCardValidator::CONTEXT_CREDITCARD
+            ),
         );
     }
 }
