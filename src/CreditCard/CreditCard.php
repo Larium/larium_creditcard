@@ -195,7 +195,7 @@ final class CreditCard
     }
 
     /**
-     * Gets card holder first name.
+     * Gets card holder name.
      *
      * @return string
      */
@@ -205,9 +205,9 @@ final class CreditCard
     }
 
     /**
-     * Sets card holder first name.
+     * Sets card holder name.
      *
-     * @param  string $firstName
+     * @param  string $holderName
      * @return CreditCard
      */
     public function withHolderName($holderName)
