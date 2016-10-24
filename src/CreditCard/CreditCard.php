@@ -182,7 +182,7 @@ final class CreditCard
     public function withNumber($number)
     {
         $card = $this->with('number', $number);
-        $card->brand = $card->detectBrand();
+        $card->detectBrand();
         $card->token = null;
 
         return $card;
