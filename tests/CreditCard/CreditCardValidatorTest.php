@@ -278,6 +278,15 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
                 'number',
                 CreditCardValidator::CONTEXT_CREDITCARD
             ),
+            # 16
+            array(
+                array(
+                    'token' => new Token('0123456789', new \DateTime('15 minutes ago')),
+                ),
+                false,
+                'token',
+                CreditCardValidator::CONTEXT_TOKEN
+            ),
         );
     }
 }
