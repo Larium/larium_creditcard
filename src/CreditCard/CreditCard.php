@@ -32,6 +32,7 @@ final class CreditCard
     const MAESTRO            = 'maestro';
     const FORBRUGSFORENINGEN = 'forbrugsforeningen';
     const LASER              = 'laser';
+    const UNIONPAY           = 'unionpay';
 
     /**
      * Card holder name.
@@ -84,21 +85,6 @@ final class CreditCard
      */
     private $token;
 
-    private static $cardCompanies = array(
-        self::VISA               => '/^4\d{12}(\d{3})?$/',
-        self::MASTER             => '/^(5[1-5]\d{4}|677189)\d{10}$/',
-        self::DISCOVER           => '/^(6011|65\d{2})\d{12}$/',
-        self::AMEX               => '/^3[47]\d{13}$/',
-        self::DINERS_CLUB        => '/^3(0[0-5]|[68]\d)\d{11}$/',
-        self::JCB                => '/^35(28|29|[3-8]\d)\d{12}$/',
-        self::SWITCH_BRAND       => '/^6759\d{12}(\d{2,3})?$/',
-        self::SOLO               => '/^6767\d{12}(\d{2,3})?$/',
-        self::DANKORT            => '/^5019\d{12}$/',
-        self::MAESTRO            => '/^(5[06-8]|6\d)\d{10,17}$/',
-        self::FORBRUGSFORENINGEN => '/^600722\d{10}$/',
-        self::LASER              => '/^(6304|6706|6771|6709)\d{8}(\d{4}|\d{6,7})?$/'
-    );
-
     public function __construct(array $options = array())
     {
         $default = array(
@@ -143,21 +129,9 @@ final class CreditCard
 
     private function detectBrand()
     {
-        foreach (self::$cardCompanies as $name => $pattern) {
-            if ($name == 'maestro') {
-                continue;
-            }
+        $detector = new CreditCardDetector();
 
-            if (preg_match($pattern, $this->number)) {
-                return $name;
-            }
-        }
-
-        if (preg_match(self::$cardCompanies['maestro'], $this->number)) {
-            return 'maestro';
-        }
-
-        return false;
+        return $detector->detect($this->number);
     }
 
     private function with($prop, $value)
