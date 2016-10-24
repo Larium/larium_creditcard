@@ -52,7 +52,7 @@ final class CreditCard
     /**
      * The brand of card.
      *
-     * @var string
+     * @var string|false
      */
     private $brand;
 
