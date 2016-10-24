@@ -91,7 +91,7 @@ final class CreditCard
             'holderName' => null,
             'month'      => 1,
             'year'       => 1970,
-            'brand'      => null,
+            'brand'      => '',
             'number'     => null,
             'cvv'        => null,
             'requireCvv' => true,
@@ -198,7 +198,7 @@ final class CreditCard
     /**
      * Gets expiry date card.
      *
-     * @return ExpireDate
+     * @return ExpiryDate
      */
     public function getExpiryDate()
     {
