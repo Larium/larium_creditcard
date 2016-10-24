@@ -27,7 +27,7 @@ class CreditCardDetector
      * Detect card brand from card number
      *
      * @param string $number The card number to detect.
-     * @return string|false Card name on success or false if not.
+     * @return mixed|false Card name on success or false if not.
      */
     public function detect($number)
     {

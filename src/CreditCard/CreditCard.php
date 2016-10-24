@@ -130,7 +130,7 @@ final class CreditCard
     /**
      * Detect card brand from card number
      *
-     * @return string|false Card name on succes or false if not.
+     * @return mixed|false Card name on success or false if not.
      */
     private function detectBrand()
     {
@@ -139,6 +139,11 @@ final class CreditCard
         return $detector->detect($this->number);
     }
 
+    /**
+     * @param string $prop
+     * @param mixed $value
+     * @return CreditCard
+     */
     private function with($prop, $value)
     {
         $card = clone $this;
