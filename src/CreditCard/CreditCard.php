@@ -52,7 +52,7 @@ final class CreditCard
     /**
      * The brand of card.
      *
-     * @var mixed|false
+     * @var string|false
      */
     private $brand;
 
@@ -116,27 +116,33 @@ final class CreditCard
             $this->$prop = $value;
         }
 
-        if (false === $this->brand = $this->detectBrand()) {
-            $this->brand = $brand;
+        $this->detectBrand($brand);
+
+        $this->token($token);
+    }
+
+    private function token($token)
+    {
+        if ($token instanceof Token) {
+            $this->token = $token;
+
+            return;
         }
 
-        if ($token) {
-            $token instanceof Token
-                ? $this->token = $token
-                : $this->token = new Token($token);
-        }
+        $this->token = new Token($token);
     }
 
     /**
-     * Detect card brand from card number
-     *
-     * @return mixed|false Card name on success or false if not.
+     * @param string $brand
+     * @return void
      */
-    private function detectBrand()
+    private function detectBrand($brand)
     {
         $detector = new CreditCardDetector();
 
-        return $detector->detect($this->number);
+        if (false === $this->brand = $detector->detect($this->number)) {
+            $this->brand = $brand;
+        };
     }
 
     /**
