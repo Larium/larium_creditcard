@@ -92,15 +92,18 @@ class CreditCardValidator
 
     protected function validateNumber()
     {
-        ($this->assertLength($this->creditCard->getNumber(), 12, 19)
+        if (false === ($this->assertLength($this->creditCard->getNumber(), 12, 19)
             && $this->assertChecksum($this->creditCard->getNumber()))
-            or $this->errors['number'] = 'not a valid number';
+        ) {
+            $this->errors['number'] = 'not a valid number';
+        }
     }
 
     protected function validateExpiration()
     {
-        $this->creditCard->getExpiryDate()->isExpired()
-            and $this->errors['date'] = 'not a valid date';
+        if ($this->creditCard->getExpiryDate()->isExpired()) {
+            $this->errors['date'] = 'not a valid date';
+        }
     }
 
     protected function validateVerificationValue()
@@ -112,8 +115,9 @@ class CreditCardValidator
         $length = $this->creditCard->getBrand() == CreditCard::AMEX
             ? 4 : 3;
 
-        strlen($this->creditCard->getCvv()) == $length
-            or $this->errors['cvv'] = 'not a valid cvv';
+        if (strlen($this->creditCard->getCvv()) !== $length) {
+            $this->errors['cvv'] = 'not a valid cvv';
+        }
     }
 
     protected function validateBrand()
@@ -124,8 +128,9 @@ class CreditCardValidator
 
     protected function validateCardHolder()
     {
-        $this->assertNotEmpty($this->creditCard->getHolderName())
-            or $this->errors['name'] = 'not a valid holder name';
+        if (false === $this->assertNotEmpty($this->creditCard->getHolderName())) {
+            $this->errors['name'] = 'not a valid holder name';
+        }
     }
 
     protected function validateToken()
@@ -136,8 +141,9 @@ class CreditCardValidator
             return;
         }
 
-        !$this->creditCard->getToken()->isExpired()
-            or $this->errors['token'] = 'token has been expired';
+        if ($this->creditCard->getToken()->isExpired()) {
+            $this->errors['token'] = 'token has been expired';
+        }
     }
 
     protected function assertLength($value, $min = 0, $max = 1)
