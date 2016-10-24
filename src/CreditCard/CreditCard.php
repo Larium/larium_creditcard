@@ -330,4 +330,11 @@ final class CreditCard
     {
         return null !== $this->token;
     }
+
+    public function __clone()
+    {
+        if ($this->expiryDate) {
+            $this->expiryDate = clone $this->expiryDate;
+        }
+    }
 }

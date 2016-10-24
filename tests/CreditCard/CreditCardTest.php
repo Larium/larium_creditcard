@@ -90,4 +90,25 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
 
         $this->assertRegExp('/XXXX-XXXX-XXXX-\d{4}/', $card->getNumber());
     }
+
+    public function testExpiryDateImmutability()
+    {
+        $data = array(
+            'firstName' => 'John',
+            'lastName'  => 'Doe',
+            'month'     => 1,
+            'year'      => date('Y') + 1,
+            'brand'     => CreditCard::VISA,
+            'number'    => '4532875311640795',
+            'cvv'       => '123',
+            'foo'       => 1
+        );
+        $card = new CreditCard($data);
+
+        $expiryDate = $card->getExpiryDate();
+
+        $newCard = clone $card;
+
+        $this->assertFalse($expiryDate === $newCard->getExpiryDate());
+    }
 }
