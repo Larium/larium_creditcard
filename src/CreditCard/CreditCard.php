@@ -127,6 +127,11 @@ final class CreditCard
         }
     }
 
+    /**
+     * Detect card brand from card number
+     *
+     * @return string|false Card name on succes or false if not.
+     */
     private function detectBrand()
     {
         $detector = new CreditCardDetector();

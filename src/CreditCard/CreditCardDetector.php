@@ -23,6 +23,12 @@ class CreditCardDetector
 
     );
 
+    /**
+     * Detect card brand from card number
+     *
+     * @param string $number The card number to detect.
+     * @return string|false Card name on succes or false if not.
+     */
     public function detect($number)
     {
         foreach (self::$cardPatterns as $name => $pattern) {
