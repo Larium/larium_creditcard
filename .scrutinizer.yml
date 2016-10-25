@@ -5,7 +5,8 @@ checks:
         code_rating: true
         duplication: true
 tools:
-    external_code_coverage: true
+    external_code_coverage:
+        timeout: 630
     php_code_sniffer:
         config:
             standard: "PSR2"
