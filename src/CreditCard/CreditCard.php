@@ -99,7 +99,6 @@ final class CreditCard
         );
 
         $options = array_intersect_key($options, $default);
-
         $options = array_replace($default, $options);
 
         $month = $options['month'];
@@ -109,12 +108,16 @@ final class CreditCard
 
         unset($options['month'], $options['year'], $options['brand'], $options['token']);
 
-        $expiryDate = new ExpiryDate($month, $year);
-        $this->expiryDate = $expiryDate;
+        $this->setProperties($month, $year, $brand, $token, $options);
+    }
 
+    private function setProperties($month, $year, $brand, $token, $options)
+    {
         foreach ($options as $prop => $value) {
             $this->$prop = $value;
         }
+
+        $this->expiryDate = new ExpiryDate($month, $year);
 
         $this->detectBrand($brand);
 
@@ -140,7 +143,7 @@ final class CreditCard
      * @param string $brand
      * @return void
      */
-    private function detectBrand($brand = null)
+    private function detectBrand($brand = '')
     {
         $detector = new CreditCardDetector();
 
