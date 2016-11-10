@@ -101,6 +101,12 @@ class CreditCardValidator
 
     protected function validateExpiration()
     {
+        $month = $this->creditCard->getExpiryDate()->getMonth();
+
+        if (!in_array($month, range(1, 12))) {
+            return $this->errors['month'] = 'not a valid month';
+        }
+
         if ($this->creditCard->getExpiryDate()->isExpired()) {
             $this->errors['date'] = 'not a valid date';
         }

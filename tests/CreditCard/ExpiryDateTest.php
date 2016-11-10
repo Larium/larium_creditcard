@@ -64,14 +64,4 @@ class ExpiryDateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($e->isExpired());
     }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testInvalidDate()
-    {
-        $e = new ExpiryDate(13, 2015);
-
-        $e->getExpiration();
-    }
 }

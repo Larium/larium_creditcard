@@ -49,10 +49,6 @@ final class ExpiryDate
                      # Please correct this accordingly in next millenium :P.
         $this->year  = (int) str_pad($year, 4, $pad, STR_PAD_LEFT);
         $this->month = (int) $month;
-
-        if (!in_array($this->month, range(1, 12))) {
-            throw new InvalidArgumentException(sprintf("Invalid value for month (%s)", $this->month));
-        }
     }
 
     /**
@@ -73,6 +69,7 @@ final class ExpiryDate
     public function getExpiration()
     {
         $dateTime = new DateTime();
+
         return $dateTime
             ->setDate($this->year, $this->month, $this->getMonthDays())
             ->setTime(23, 59, 59);
