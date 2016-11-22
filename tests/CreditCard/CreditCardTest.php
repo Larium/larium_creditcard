@@ -44,13 +44,18 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
             ->withHolderName('Mark Doe')
             ->withExpiryDate(new ExpiryDate(1, date('Y')+1))
             ->withBrand(CreditCard::MAESTRO)
-            ->withCvv('123');
+            ->withCvv('123')
+            ->withIssuingBank('NATIONAL BANK OF GREECE')
+            ->withCountry('GRC');
 
         $this->assertNotNull($card->getNumber());
         $this->assertNotNull($card->getHolderName());
         $this->assertNotNull($card->getExpiryDate());
         $this->assertNotNull($card->getBrand());
         $this->assertNotNull($card->getCvv());
+        $this->assertNotNull($card->getIssuingBank());
+        $this->assertNotNull($card->getCountry());
+        $this->assertNotNull($card->getBin());
     }
 
     public function testCreditCardToken()

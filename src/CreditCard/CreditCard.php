@@ -74,7 +74,7 @@ final class CreditCard
     /**
      * Whether card is require verification value to be present.
      *
-     * @var boolean
+     * @var bool
      */
     private $requireCvv = true;
 
@@ -84,6 +84,22 @@ final class CreditCard
      * @var Token
      */
     private $token;
+
+    /**
+     * @var string
+     */
+    private $bin;
+
+    /**
+     * @var string
+     */
+    private $issuingBank;
+
+    /**
+     * The iso alpha 3 country code.
+     * @var string
+     */
+    private $country;
 
     public function __construct(array $options = array())
     {
@@ -122,6 +138,8 @@ final class CreditCard
         $this->detectBrand($brand);
 
         $this->token($token);
+
+        $this->bin = substr($this->number, 0, 6);
     }
 
     private function token($token)
@@ -333,5 +351,30 @@ final class CreditCard
         if ($this->expiryDate) {
             $this->expiryDate = clone $this->expiryDate;
         }
+    }
+
+    public function getBin()
+    {
+        return $this->bin;
+    }
+
+    public function withIssuingBank($issuingBank)
+    {
+        return $this->with('issuingBank', $issuingBank);
+    }
+
+    public function getIssuingBank()
+    {
+        return $this->issuingBank;
+    }
+
+    public function withCountry($country)
+    {
+        return $this->with('country', $country);
+    }
+
+    public function getCountry()
+    {
+        return $this->country;
     }
 }
