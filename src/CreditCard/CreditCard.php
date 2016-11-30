@@ -133,6 +133,8 @@ final class CreditCard
             $this->$prop = $value;
         }
 
+        $this->holderName = strtoupper($this->holderName);
+
         $this->expiryDate = new ExpiryDate($month, $year);
 
         $this->detectBrand($brand);
@@ -228,6 +230,7 @@ final class CreditCard
     public function withHolderName($holderName)
     {
         $holderName = strtoupper($holderName);
+
         return $this->with('holderName', $holderName);
     }
 
