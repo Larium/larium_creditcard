@@ -207,6 +207,7 @@ final class CreditCard
         $card = $this->with('number', $number);
         $card->detectBrand();
         $card->token = null;
+        $card->bin = substr($number, 0, 6);
 
         return $card;
     }
