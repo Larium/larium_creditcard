@@ -33,7 +33,7 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($otherCard, $card);
         $this->assertEquals('4532875311640795', $card->getNumber());
         $this->assertEquals('4735930212834206', $otherCard->getNumber());
-        $this->assertEquals($data['holderName'], $card->getHolderName());
+        $this->assertEquals(strtoupper($data['holderName']), $card->getHolderName());
     }
 
     public function testCreditCardMethods()
