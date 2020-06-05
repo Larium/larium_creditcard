@@ -7,7 +7,7 @@ namespace Larium\CreditCard;
 class CreditCardDetector
 {
     private static $cardPatterns = array(
-        CreditCard::VISA               => '/^4\d{12}(\d{3})?$/',
+        CreditCard::VISA               => '/(^4\d{12}(\d{3})?$)|(^4\d{12}(\d{6})?$)/',
         CreditCard::MASTER             => '/^((5[1-5]\d{4}|677189)\d{10})|(2(?:2(?:2[1-9]|[3-9]\d)|[3-6]\d\d|7(?:[01]\d|20))-?\d{4}-?\d{4}-?\d{4})$/',
         CreditCard::DISCOVER           => '/^6(?:011\d{12}|5\d{14}|4[4-9]\d{13}|22(?:1(?:2[6-9]|[3-9]\d)|[2-8]\d{2}|9(?:[01]\d|2[0-5]))\d{10})$/',
         CreditCard::UNIONPAY           => '/^62[0-9]\d{13,16}$/',
