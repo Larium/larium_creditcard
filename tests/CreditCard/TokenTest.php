@@ -3,8 +3,9 @@
 namespace Larium\CreditCard;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 
-class TokenTest extends \PHPUnit_Framework_TestCase
+class TokenTest extends TestCase
 {
     public function testTokenInstance()
     {
