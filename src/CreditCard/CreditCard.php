@@ -67,7 +67,7 @@ final class CreditCard
      * The verification value of card (cvv).
      * 3 or 4 digits.
      *
-     * @var integer
+     * @var string
      */
     private $cvv;
 
