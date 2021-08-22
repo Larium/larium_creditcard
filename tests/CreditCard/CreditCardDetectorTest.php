@@ -1,7 +1,5 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
-
 namespace Larium\CreditCard;
 
 class CreditCardDetectorTest extends \PHPUnit_Framework_TestCase
