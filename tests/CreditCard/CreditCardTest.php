@@ -11,7 +11,9 @@
 
 namespace Larium\CreditCard;
 
-class CreditCardTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CreditCardTest extends TestCase
 {
     public function testCreditCardInstance()
     {
@@ -91,7 +93,7 @@ class CreditCardTest extends \PHPUnit_Framework_TestCase
 
         $card = $card->withToken(new Token('0123456789'));
 
-        $this->assertRegExp('/XXXX-XXXX-XXXX-\d{4}/', $card->getNumber());
+        $this->assertMatchesRegularExpression('/XXXX-XXXX-XXXX-\d{4}/', $card->getNumber());
     }
 
     public function testExpiryDateImmutability()

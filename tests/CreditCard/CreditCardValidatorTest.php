@@ -11,7 +11,9 @@
 
 namespace Larium\CreditCard;
 
-class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CreditCardValidatorTest extends TestCase
 {
     /**
      * @dataProvider cardOptionsProvider
@@ -50,11 +52,9 @@ class CreditCardValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($errors);
     }
 
-    /**
-     * @expectedException RuntimeException
-     */
     public function testInvalidValidatorContext()
     {
+        $this->expectException(\RuntimeException::class);
         $validator = new CreditCardValidator();
 
         $validator->setContext('wrong');

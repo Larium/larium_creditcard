@@ -2,7 +2,9 @@
 
 namespace Larium\CreditCard;
 
-class CreditCardDetectorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class CreditCardDetectorTest extends TestCase
 {
     /**
      * @dataProvider creditCardsProvider

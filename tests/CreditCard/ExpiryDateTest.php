@@ -12,8 +12,9 @@
 namespace Larium\CreditCard;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 
-class ExpiryDateTest extends \PHPUnit_Framework_TestCase
+class ExpiryDateTest extends TestCase
 {
     public function testExpiryDateFormatters()
     {
