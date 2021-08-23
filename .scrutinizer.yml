@@ -10,3 +10,11 @@ tools:
     php_code_sniffer:
         config:
             standard: "PSR2"
+build:
+    environment:
+        php:
+            version: 7.4
+    tests:
+        override:
+            -
+                command: './vendor/bin/phpunit --configuration code-coverage.xml tests/'
