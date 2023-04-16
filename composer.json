@@ -29,7 +29,7 @@
     },
     "scripts": {
         "docker-build": "docker build -f .docker/Dockerfile -t larium-creditcard .",
-        "docker-tests": "docker run -v $(pwd):/opt/php larium-creditcard sh -c './vendor/bin/phpunit --configuration code-coverage.xml tests/'",
-        "tests": "./vendor/bin/phpunit --configuration code-coverage.xml tests/"
+        "docker-tests": "docker run -v $(pwd):/opt/php larium-creditcard sh -c './vendor/bin/phpunit tests/'",
+        "tests": "./vendor/bin/phpunit tests/"
     }
 }
