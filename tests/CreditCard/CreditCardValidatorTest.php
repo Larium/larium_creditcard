@@ -60,7 +60,7 @@ class CreditCardValidatorTest extends TestCase
         $validator->setContext('wrong');
     }
 
-    public function cardOptionsProvider()
+    public static function cardOptionsProvider()
     {
         return array(
             # 0

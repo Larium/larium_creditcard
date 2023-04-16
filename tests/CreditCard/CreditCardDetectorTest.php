@@ -19,7 +19,7 @@ class CreditCardDetectorTest extends TestCase
         );
     }
 
-    public function creditCardsProvider()
+    public static function creditCardsProvider()
     {
         $source = __DIR__ . '/../fixtures/';
 

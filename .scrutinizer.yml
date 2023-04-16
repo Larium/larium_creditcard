@@ -11,8 +11,7 @@ tools:
 build:
     environment:
         php:
-            version: 7.4
+            version: 8.1
     tests:
         override:
-            -
-                command: './vendor/bin/phpunit --configuration code-coverage.xml tests/'
+            - command: './vendor/bin/phpunit tests/'
