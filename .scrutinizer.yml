@@ -1,5 +1,5 @@
 filter:
-    excluded_paths: [vendor/*, tests/*]
+    excluded_paths: [vendor/*, tests/*, .php-cs-fixer.php]
 checks:
     php:
         code_rating: true
@@ -22,9 +22,6 @@ build:
         tests:
             override:
                 - php-scrutinizer-run
-    coverage:
-        tests:
-            override:
                 - command: './vendor/bin/phpunit tests/'
                   coverage:
                     file: build/logs/clover.xml

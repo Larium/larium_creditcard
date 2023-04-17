@@ -127,7 +127,7 @@ class CreditCardValidator
 
     private function validateBrand(): void
     {
-        if ($this->assertNotEmpty($this->creditCard->getBrand()) == false) {
+        if ($this->assertNotEmpty($this->creditCard->getBrand()) === false) {
             $this->errors['brand'] = 'not valid card type';
         }
     }
