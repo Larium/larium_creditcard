@@ -1,34 +1,27 @@
 <?php
 
-/*
- * This file is part of the Larium CreditCard package.
- *
- * (c) Andreas Kollaros <andreas@larium.net>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Larium\CreditCard;
 
 use RuntimeException;
 
-/**
- * CreditCardValidator
- *
- * @author Andreas Kollaros <andreas@larium.net>
- */
+use function in_array;
+use function range;
+use function sprintf;
+use function strlen;
+
 class CreditCardValidator
 {
-    const CONTEXT_CREDITCARD = 'credit-card';
+    public const CONTEXT_CREDITCARD = 'credit-card';
 
-    const CONTEXT_TOKEN      = 'token';
+    public const CONTEXT_TOKEN = 'token';
 
-    protected $creditCard;
+    private CreditCard $creditCard;
 
-    protected $errors = array();
+    private array $errors = [];
 
-    protected $context;
+    private string $context = self::CONTEXT_CREDITCARD;
 
     public function __construct($context = self::CONTEXT_CREDITCARD)
     {
@@ -41,9 +34,9 @@ class CreditCardValidator
      * @param string $context
      * @return void
      */
-    public function setContext($context)
+    public function setContext($context): void
     {
-        $contexts = array(self::CONTEXT_CREDITCARD, self::CONTEXT_TOKEN);
+        $contexts = [self::CONTEXT_CREDITCARD, self::CONTEXT_TOKEN];
         if (!in_array($context, $contexts)) {
             throw new RuntimeException(
                 sprintf("Invalid validation context '%s'", $context)
@@ -59,9 +52,9 @@ class CreditCardValidator
      * @param CreditCard $creditCard
      * @return array
      */
-    public function validate(CreditCard $creditCard)
+    public function validate(CreditCard $creditCard): array
     {
-        $this->errors       = array();
+        $this->errors       = [];
         $this->creditCard   = $creditCard;
 
         if ($this->context == self::CONTEXT_CREDITCARD) {
@@ -80,15 +73,21 @@ class CreditCardValidator
     /**
      * Gets possible errors when validated a CreditCard.
      * Returns empty array if no errors found.
+     * example:
+     * [
+     *     'number' => 'not a valid number',
+     *     'month' => 'not a valid month',
+     *     'brand' => 'not a valid card type',
+     * ]
      *
      * @return array
      */
-    public function getErrors()
+    public function getErrors(): array
     {
         return $this->errors;
     }
 
-    protected function validateNumber()
+    private function validateNumber(): void
     {
         if (false === ($this->assertLength($this->creditCard->getNumber(), 12, 19)
             && $this->assertChecksum($this->creditCard->getNumber()))
@@ -97,12 +96,14 @@ class CreditCardValidator
         }
     }
 
-    protected function validateExpiration()
+    private function validateExpiration(): void
     {
         $month = $this->creditCard->getExpiryDate()->getMonth();
 
         if (!in_array($month, range(1, 12))) {
-            return $this->errors['month'] = 'not a valid month';
+            $this->errors['month'] = 'not a valid month';
+
+            return;
         }
 
         if ($this->creditCard->getExpiryDate()->isExpired()) {
@@ -110,7 +111,7 @@ class CreditCardValidator
         }
     }
 
-    protected function validateVerificationValue()
+    private function validateVerificationValue(): void
     {
         if (false === $this->creditCard->isRequireCvv()) {
             return;
@@ -124,21 +125,21 @@ class CreditCardValidator
         }
     }
 
-    protected function validateBrand()
+    private function validateBrand(): void
     {
-        if (false === $this->assertNotEmpty($this->creditCard->getBrand())) {
+        if ($this->assertNotEmpty($this->creditCard->getBrand()) === false) {
             $this->errors['brand'] = 'not valid card type';
         }
     }
 
-    protected function validateCardHolder()
+    private function validateCardHolder(): void
     {
         if (false === $this->assertNotEmpty($this->creditCard->getHolderName())) {
             $this->errors['name'] = 'not a valid holder name';
         }
     }
 
-    protected function validateToken()
+    private function validateToken(): void
     {
         if (!$this->assertNotEmpty($this->creditCard->getToken())) {
             $this->errors['token'] = 'token value is empty';
@@ -151,14 +152,14 @@ class CreditCardValidator
         }
     }
 
-    protected function assertLength($value, $min = 0, $max = 1)
+    private function assertLength(string $value, $min = 0, $max = 1): bool
     {
         $length = strlen($value);
 
         return $length >= $min && $length <= $max;
     }
 
-    protected function assertNotEmpty($value)
+    private function assertNotEmpty(mixed $value): bool
     {
         return !empty($value);
     }
@@ -167,13 +168,13 @@ class CreditCardValidator
      * Checks the validity of a card number by use of the the Luhn Algorithm.
      * Please see http://en.wikipedia.org/wiki/Luhn_algorithm for details.
      *
-     * @param integer $number the number to check
+     * @param string $number the number to check
      *
-     * @return boolean if given number has valid checksum
+     * @return bool if given number has valid checksum
      */
-    protected function assertChecksum($number)
+    private function assertChecksum(string $number): bool
     {
-        $map = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 2, 4, 6, 8, 1, 3, 5, 7, 9);
+        $map = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 2, 4, 6, 8, 1, 3, 5, 7, 9];
         $sum = 0;
         $last = strlen($number) - 1;
         for ($i = 0; $i <= $last; $i++) {

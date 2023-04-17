@@ -1,0 +1,11 @@
+version: "3.1"
+services:
+  php-cli:
+    build: .docker
+    container_name: larium-creditcard
+    image: larium-creditcard:latest
+    working_dir: /opt/php
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/opt/php

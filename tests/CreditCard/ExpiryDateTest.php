@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the Larium CreditCard package.
- *
- * (c) Andreas Kollaros <andreas@larium.net>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Larium\CreditCard;
 
@@ -18,14 +11,14 @@ class ExpiryDateTest extends TestCase
 {
     public function testExpiryDateFormatters()
     {
-        $month = 2;
-        $year = 17;
+        $month = '2';
+        $year = '17';
         $e = new ExpiryDate($month, $year);
 
         $this->assertEquals('02', $e->getTwoDigitMonth());
-        $this->assertEquals(2, $e->getMonth());
-        $this->assertEquals(2017, $e->getYear());
-        $this->assertEquals(17, $e->getTwoDigitYear());
+        $this->assertEquals('2', $e->getMonth());
+        $this->assertEquals('2017', $e->getYear());
+        $this->assertEquals('17', $e->getTwoDigitYear());
     }
 
     public function testExpired()

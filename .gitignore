@@ -2,3 +2,6 @@ composer.lock
 /vendor
 /build
 .phpunit.result.cache
+/.phpunit.cache
+.vscode
+.DS_Store

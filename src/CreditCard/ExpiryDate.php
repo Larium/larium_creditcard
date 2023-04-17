@@ -1,18 +1,14 @@
 <?php
 
-/*
- * This file is part of the Larium CreditCard package.
- *
- * (c) Andreas Kollaros <andreas@larium.net>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Larium\CreditCard;
 
 use DateTime;
-use InvalidArgumentException;
+
+use function intval;
+use function str_pad;
+use function substr;
 
 /**
  * ExpiryDate class provides help for handling credit card expiration date.
@@ -26,35 +22,35 @@ final class ExpiryDate
      * Two or four digit of expiration year.
      * Will be converted to four digit if two digit input provided.
      *
-     * @var integer
+     * @var string
      */
     private $year;
 
     /**
      * Expiration month.
      *
-     * @var integer
+     * @var string
      */
     private $month;
 
     /**
-     * @param integer $month
-     * @param integer $year
+     * @param string $month
+     * @param string $year
      */
-    public function __construct($month, $year)
+    public function __construct(string $month, string $year)
     {
         $pad = "20"; # Since expiration would be in future, assuming start millenium is 2000.
-                     # Please correct this accordingly in next millenium :P.
-        $this->year  = (int) str_pad($year, 4, $pad, STR_PAD_LEFT);
-        $this->month = (int) $month;
+        # Please correct this accordingly in next millenium :P.
+        $this->year  = str_pad($year, 4, $pad, STR_PAD_LEFT);
+        $this->month = $month;
     }
 
     /**
      * Whether date is in past or not.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isExpired()
+    public function isExpired(): bool
     {
         return (new DateTime()) > $this->getExpiration();
     }
@@ -64,31 +60,31 @@ final class ExpiryDate
      *
      * @return DateTime
      */
-    public function getExpiration()
+    public function getExpiration(): DateTime
     {
         $dateTime = new DateTime();
 
         return $dateTime
-            ->setDate($this->year, $this->month, $this->getMonthDays())
+            ->setDate(intval($this->year), intval($this->month), intval($this->getMonthDays()))
             ->setTime(23, 59, 59);
     }
 
     /**
      * Returns four digit year.
      *
-     * @return integer
+     * @return string
      */
-    public function getYear()
+    public function getYear(): string
     {
         return $this->year;
     }
 
     /**
-     * Returns two digit year.r
+     * Returns two digit year.
      *
      * @return string
      */
-    public function getTwoDigitYear()
+    public function getTwoDigitYear(): string
     {
         return substr($this->year, 2, 2);
     }
@@ -96,9 +92,9 @@ final class ExpiryDate
     /**
      * Returns month.
      *
-     * @return int
+     * @return string
      */
-    public function getMonth()
+    public function getMonth(): string
     {
         return $this->month;
     }
@@ -108,12 +104,12 @@ final class ExpiryDate
      *
      * @return string
      */
-    public function getTwoDigitMonth()
+    public function getTwoDigitMonth(): string
     {
         return str_pad($this->month, 2, '0', STR_PAD_LEFT);
     }
 
-    private function getMonthDays()
+    private function getMonthDays(): string
     {
         $dateTime = new DateTime("{$this->year}-{$this->month}-01");
         return $dateTime->format('t');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Larium\CreditCard;
 
 use PHPUnit\Framework\TestCase;
@@ -19,12 +21,13 @@ class CreditCardDetectorTest extends TestCase
         );
     }
 
-    public function creditCardsProvider()
+    public static function creditCardsProvider()
     {
         $source = __DIR__ . '/../fixtures/';
 
-        $files = array(
+        $files = [
             CreditCard::JCB => $source . 'jcb.csv',
+            CreditCard::MIR => $source . 'mir.csv',
             CreditCard::VISA => $source . 'visa.csv',
             CreditCard::AMEX => $source . 'amex.csv',
             CreditCard::MASTER => $source . 'master.csv',
@@ -34,9 +37,9 @@ class CreditCardDetectorTest extends TestCase
             CreditCard::DISCOVER => $source . 'discover.csv',
             CreditCard::DINERS_CLUB => $source . 'diners.csv',
             CreditCard::FORBRUGSFORENINGEN => $source . 'forb.csv',
-        );
+        ];
 
-        $data = array();
+        $data = [];
         foreach ($files as $k => $f) {
             $file = new \SplFileObject($f);
             $file->setFlags(\SplFileObject::SKIP_EMPTY);
@@ -45,10 +48,10 @@ class CreditCardDetectorTest extends TestCase
                 if (empty($line)) {
                     continue;
                 }
-                $data[] = array(
+                $data[] = [
                     $line[0],
                     $k
-                );
+                ];
             }
         }
 

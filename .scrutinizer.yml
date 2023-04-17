@@ -1,5 +1,5 @@
 filter:
-    excluded_paths: [vendor/*, tests/*]
+    excluded_paths: [vendor/*, tests/*, .php-cs-fixer.php]
 checks:
     php:
         code_rating: true
@@ -7,12 +7,22 @@ checks:
 tools:
     php_code_sniffer:
         config:
-            standard: "PSR2"
+            standard: "PSR12"
 build:
-    environment:
-        php:
-            version: 7.4
-    tests:
-        override:
-            -
-                command: './vendor/bin/phpunit --configuration code-coverage.xml tests/'
+  nodes:
+    analysis:
+        dependencies:
+            override:
+                - composer install --ignore-platform-reqs --no-interaction
+        environment:
+            php:
+                version: 8.1
+                ini:
+                    xdebug.mode: coverage
+        tests:
+            override:
+                - php-scrutinizer-run
+                - command: './vendor/bin/phpunit tests/'
+                  coverage:
+                    file: build/logs/clover.xml
+                    format: clover
