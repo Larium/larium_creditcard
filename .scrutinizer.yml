@@ -11,13 +11,13 @@ tools:
 build:
   nodes:
     analysis:
-    dependencies:
-        override:
-            - composer install --ignore-platform-reqs --no-interaction
-    environment:
-        php:
-            version: 8.1
-    tests:
-        override:
-          - './vendor/bin/phpunit tests/'
-          - php-scrutinizer-run
+        dependencies:
+            override:
+                - composer install --ignore-platform-reqs --no-interaction
+        environment:
+            php:
+                version: 8.1
+        tests:
+            override:
+            - './vendor/bin/phpunit tests/'
+            - php-scrutinizer-run
