@@ -7,11 +7,17 @@ checks:
 tools:
     php_code_sniffer:
         config:
-            standard: "PSR2"
+            standard: "PSR12"
 build:
+  nodes:
+    analysis:
+    dependencies:
+        override:
+            - composer install --ignore-platform-reqs --no-interaction
     environment:
         php:
             version: 8.1
     tests:
         override:
-            - command: './vendor/bin/phpunit tests/'
+          - './vendor/bin/phpunit tests/'
+          - php-scrutinizer-run

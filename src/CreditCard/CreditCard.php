@@ -1,36 +1,34 @@
 <?php
 
-/*
- * This file is part of the Larium CreditCard package.
- *
- * (c) Andreas Kollaros <andreas@larium.net>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Larium\CreditCard;
 
+use function array_intersect_key;
+use function array_replace;
+use function strlen;
+use function strtoupper;
+use function substr;
+
 /**
  * CreditCard class acts as value object.
- *
- * @author  Andreas Kollaros <andreas@larium.net>
  */
 final class CreditCard
 {
-    const VISA               = 'visa';
-    const MASTER             = 'master';
-    const DISCOVER           = 'discover';
-    const AMEX               = 'american_express';
-    const DINERS_CLUB        = 'diners_club';
-    const JCB                = 'jcb';
-    const SWITCH_BRAND       = 'switch';
-    const SOLO               = 'solo';
-    const DANKORT            = 'dankort';
-    const MAESTRO            = 'maestro';
-    const FORBRUGSFORENINGEN = 'forbrugsforeningen';
-    const LASER              = 'laser';
-    const UNIONPAY           = 'unionpay';
+    public const VISA               = 'visa';
+    public const MASTER             = 'master';
+    public const DISCOVER           = 'discover';
+    public const AMEX               = 'american_express';
+    public const DINERS_CLUB        = 'diners_club';
+    public const JCB                = 'jcb';
+    public const SWITCH_BRAND       = 'switch';
+    public const SOLO               = 'solo';
+    public const DANKORT            = 'dankort';
+    public const MAESTRO            = 'maestro';
+    public const FORBRUGSFORENINGEN = 'forbrugsforeningen';
+    public const LASER              = 'laser';
+    public const UNIONPAY           = 'unionpay';
+    public const MIR                = 'mir';
 
     /**
      * Card holder name.
@@ -38,28 +36,28 @@ final class CreditCard
      *
      * @var string
      */
-    private $holderName;
+    private ?string $holderName = '';
 
     /**
      * Expire date of card as value object
      *
      * @var ExpiryDate
      */
-    private $expiryDate;
+    private ExpiryDate $expiryDate;
 
     /**
      * The brand of card.
      *
-     * @var mixed|false
+     * @var string
      */
-    private $brand;
+    private string $brand = '';
 
     /**
      * The number of card.
      *
      * @var string
      */
-    private $number;
+    private string $number = '';
 
     /**
      * The verification value of card (cvv).
@@ -67,88 +65,88 @@ final class CreditCard
      *
      * @var string
      */
-    private $cvv;
+    private string $cvv;
 
     /**
      * Whether card is require verification value to be present.
      *
      * @var bool
      */
-    private $requireCvv = true;
+    private bool $requireCvv = true;
 
     /**
      * Token stored from a real credit card and can be used for purchases.
      *
      * @var Token
      */
-    private $token;
+    private ?Token $token;
 
     /**
      * @var string
      */
-    private $bin;
+    private string $bin = '';
 
     /**
      * @var string
      */
-    private $issuingBank;
+    private string $issuingBank = '';
 
     /**
      * The iso alpha 3 country code.
      * @var string
      */
-    private $country;
+    private string $country = '';
 
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
-        $default = array(
-            'holderName' => null,
-            'month'      => 1,
-            'year'       => 1970,
+        $default = [
+            'holderName' => '',
+            'month'      => '1',
+            'year'       => '1970',
             'brand'      => '',
-            'number'     => null,
-            'cvv'        => null,
+            'number'     => '',
+            'cvv'        => '',
             'requireCvv' => true,
             'token'      => null
-        );
+        ];
 
         $options = array_intersect_key($options, $default);
         $options = array_replace($default, $options);
 
-        $month = $options['month'];
-        $year  = $options['year'];
-        $brand = $options['brand'];
+        $month = strval($options['month'] ?? 1);
+        $year  = strval($options['year'] ?? 1970);
         $token = $options['token'];
 
         unset($options['month'], $options['year'], $options['brand'], $options['token']);
 
-        $this->setProperties($month, $year, $brand, $token, $options);
+        $this->setProperties($month, $year, $token, $options);
     }
 
-    private function setProperties($month, $year, $brand, $token, $options)
-    {
+    private function setProperties(
+        string $month,
+        string $year,
+        string | Token | null $token = null,
+        array $options = []
+    ) {
         foreach ($options as $prop => $value) {
             $this->$prop = $value;
         }
 
-        $this->holderName = strtoupper($this->holderName);
-
+        if (!empty($this->holderName)) {
+            $this->holderName = strtoupper($this->holderName);
+        }
         $this->expiryDate = new ExpiryDate($month, $year);
 
-        $this->detectBrand($brand);
+        $this->detectBrand();
 
         $this->token($token);
 
         $this->bin = substr($this->number, 0, 6);
     }
 
-    private function token($token)
+    private function token(string|Token|null $token): void
     {
-        if (null === $token) {
-            return;
-        }
-
-        if ($token instanceof Token) {
+        if ($token instanceof Token || $token === null) {
             $this->token = $token;
 
             return;
@@ -158,16 +156,13 @@ final class CreditCard
     }
 
     /**
-     * @param string $brand
      * @return void
      */
-    private function detectBrand($brand = '')
+    private function detectBrand(): void
     {
         $detector = new CreditCardDetector();
 
-        if (false === $this->brand = $detector->detect($this->number)) {
-            $this->brand = $brand;
-        };
+        $this->brand = $detector->detect($this->number);
     }
 
     /**
@@ -175,7 +170,7 @@ final class CreditCard
      * @param mixed $value
      * @return CreditCard
      */
-    private function with($prop, $value)
+    private function with(string $prop, mixed $value): self
     {
         $card = clone $this;
 
@@ -189,7 +184,7 @@ final class CreditCard
      *
      * @return string
      */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
@@ -200,7 +195,7 @@ final class CreditCard
      * @param  string $number
      * @return CreditCard
      */
-    public function withNumber($number)
+    public function withNumber(string $number): self
     {
         $card = $this->with('number', $number);
         $card->detectBrand();
@@ -213,9 +208,9 @@ final class CreditCard
     /**
      * Gets card holder name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getHolderName()
+    public function getHolderName(): ?string
     {
         return $this->holderName;
     }
@@ -226,7 +221,7 @@ final class CreditCard
      * @param  string $holderName
      * @return CreditCard
      */
-    public function withHolderName($holderName)
+    public function withHolderName(string $holderName): self
     {
         $holderName = strtoupper($holderName);
 
@@ -238,7 +233,7 @@ final class CreditCard
      *
      * @return ExpiryDate
      */
-    public function getExpiryDate()
+    public function getExpiryDate(): ExpiryDate
     {
         return $this->expiryDate;
     }
@@ -249,7 +244,7 @@ final class CreditCard
      * @param  ExpiryDate $expiryDate
      * @return CreditCard
      */
-    public function withExpiryDate(ExpiryDate $expiryDate)
+    public function withExpiryDate(ExpiryDate $expiryDate): self
     {
         return $this->with('expiryDate', $expiryDate);
     }
@@ -259,7 +254,7 @@ final class CreditCard
      *
      * @return string
      */
-    public function getBrand()
+    public function getBrand(): string
     {
         return $this->brand;
     }
@@ -270,7 +265,7 @@ final class CreditCard
      * @param  string $brand
      * @return CreditCard
      */
-    public function withBrand($brand)
+    public function withBrand(string $brand): self
     {
         return $this->with('brand', $brand);
     }
@@ -278,9 +273,9 @@ final class CreditCard
     /**
      * Gets card verification value (cvv).
      *
-     * @return integer
+     * @return string
      */
-    public function getCvv()
+    public function getCvv(): string
     {
         return $this->cvv;
     }
@@ -288,10 +283,10 @@ final class CreditCard
     /**
      * Sets card verification value.
      *
-     * @param  integer $cvv
+     * @param  string $cvv
      * @return CreditCard
      */
-    public function withCvv($cvv)
+    public function withCvv(string $cvv): self
     {
         return $this->with('cvv', $cvv);
     }
@@ -299,9 +294,9 @@ final class CreditCard
     /**
      * Check if cvv is required for credit card validation.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isRequireCvv()
+    public function isRequireCvv(): bool
     {
         return $this->requireCvv;
     }
@@ -309,9 +304,9 @@ final class CreditCard
     /**
      * Gets referenece token of a credit card.
      *
-     * @return Token
+     * @return Token|null
      */
-    public function getToken()
+    public function getToken(): ?Token
     {
         return $this->token;
     }
@@ -322,7 +317,7 @@ final class CreditCard
      * @param  Token $token
      * @return CreditCard
      */
-    public function withToken(Token $token)
+    public function withToken(Token $token): self
     {
         $card = $this->with('token', $token);
 
@@ -333,7 +328,7 @@ final class CreditCard
             $card->number = "XXXX-XXXX-XXXX-" . $lastDigits;
         }
 
-        $card->cvv = null;
+        $card->cvv = '';
 
         return $card;
     }
@@ -341,41 +336,41 @@ final class CreditCard
     /**
      * Checks whether credit card has stored a Token reference or not.
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasToken()
+    public function hasToken(): bool
     {
         return null !== $this->token;
     }
 
-    public function __clone()
+    public function __clone(): void
     {
         if ($this->expiryDate) {
             $this->expiryDate = clone $this->expiryDate;
         }
     }
 
-    public function getBin()
+    public function getBin(): string
     {
         return $this->bin;
     }
 
-    public function withIssuingBank($issuingBank)
+    public function withIssuingBank(string $issuingBank): self
     {
         return $this->with('issuingBank', $issuingBank);
     }
 
-    public function getIssuingBank()
+    public function getIssuingBank(): string
     {
         return $this->issuingBank;
     }
 
-    public function withCountry($country)
+    public function withCountry(string $country): self
     {
         return $this->with('country', $country);
     }
 
-    public function getCountry()
+    public function getCountry(): string
     {
         return $this->country;
     }

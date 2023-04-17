@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the Larium CreditCard package.
- *
- * (c) Andreas Kollaros <andreas@larium.net>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Larium\CreditCard;
 
@@ -17,15 +10,15 @@ class CreditCardTest extends TestCase
 {
     public function testCreditCardInstance()
     {
-        $data = array(
+        $data = [
             'holderName' => 'John Doe',
-            'month'     => 1,
-            'year'      => date('Y') + 1,
+            'month'     => '1',
+            'year'      => strval(date('Y') + 1),
             'brand'     => CreditCard::VISA,
             'number'    => '4532875311640795',
             'cvv'       => '123',
             'foo'       => 1
-        );
+        ];
         $card = new CreditCard($data);
 
         $otherCard = $card->withNumber('4735930212834206');
@@ -42,7 +35,7 @@ class CreditCardTest extends TestCase
 
         $card = $card->withNumber('5038525566641172')
             ->withHolderName('Mark Doe')
-            ->withExpiryDate(new ExpiryDate(1, date('Y')+1))
+            ->withExpiryDate(new ExpiryDate('1', strval(date('Y') + 1)))
             ->withBrand(CreditCard::MAESTRO)
             ->withCvv('123')
             ->withIssuingBank('NATIONAL BANK OF GREECE')
@@ -70,7 +63,7 @@ class CreditCardTest extends TestCase
 
     public function testCreditCardTokenInConsrtuctor()
     {
-        $card = new CreditCard(array('token' => '0123456789'));
+        $card = new CreditCard(['token' => '0123456789']);
 
         $this->assertNotNull($card->getToken());
         $this->assertInstanceOf('Larium\CreditCard\Token', $card->getToken());
@@ -79,7 +72,7 @@ class CreditCardTest extends TestCase
 
     public function testSettingToken()
     {
-        $data = array(
+        $data = [
             'firstName' => 'John',
             'lastName'  => 'Doe',
             'month'     => 1,
@@ -88,7 +81,7 @@ class CreditCardTest extends TestCase
             'number'    => '4532875311640795',
             'cvv'       => '123',
             'foo'       => 1
-        );
+        ];
         $card = new CreditCard($data);
 
         $card = $card->withToken(new Token('0123456789'));
@@ -98,7 +91,7 @@ class CreditCardTest extends TestCase
 
     public function testExpiryDateImmutability()
     {
-        $data = array(
+        $data = [
             'firstName' => 'John',
             'lastName'  => 'Doe',
             'month'     => 1,
@@ -107,7 +100,7 @@ class CreditCardTest extends TestCase
             'number'    => '4532875311640795',
             'cvv'       => '123',
             'foo'       => 1
-        );
+        ];
         $card = new CreditCard($data);
 
         $expiryDate = $card->getExpiryDate();
@@ -119,7 +112,7 @@ class CreditCardTest extends TestCase
 
     public function testChangeCreditCardNumber()
     {
-        $data = array(
+        $data = [
             'firstName' => 'John',
             'lastName'  => 'Doe',
             'month'     => 1,
@@ -128,7 +121,7 @@ class CreditCardTest extends TestCase
             'number'    => '4532875311640795',
             'cvv'       => '123',
             'foo'       => 1
-        );
+        ];
         $card = new CreditCard($data);
 
         $this->assertEquals('453287', $card->getBin());
