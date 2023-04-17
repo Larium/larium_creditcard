@@ -125,7 +125,7 @@ final class CreditCard
     private function setProperties(
         string $month,
         string $year,
-        string | Token | null $token = null,
+        string|Token|null $token = null,
         array $options = []
     ) {
         foreach ($options as $prop => $value) {
